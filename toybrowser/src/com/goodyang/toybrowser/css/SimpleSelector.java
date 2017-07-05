@@ -15,12 +15,35 @@ public class SimpleSelector extends Selector {
 		this.id = id;
 		this.cls = cls;
 	}
-	
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setTag_name(String tag_name) {
+		this.tag_name = tag_name;
+	}
+
+	public void setCls(ArrayList<String> cls) {
+		this.cls = cls;
+	}
+
+	public ArrayList<String> getCls() {
+		return cls;
+	}
+
 	@Override
 	Specificity specificity() {
 		int a = tag_name!=null?tag_name.length():0;
 		int b = id!=null?id.length():0;
 		int c = cls!=null?cls.size():0;
 		return new Specificity(a, b, c);
+	}
+
+	@Override
+	public int compareTo(Selector o) {
+		Specificity s1 = specificity();
+		Specificity s2 = o.specificity();
+		return s1.compareTo(s2);
 	}
 }

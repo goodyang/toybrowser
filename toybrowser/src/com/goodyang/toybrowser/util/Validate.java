@@ -1,4 +1,4 @@
-package com.goodyang.toybrowser.html;
+package com.goodyang.toybrowser.util;
 
 /**
  * Created by Saga on 2017/7/4.

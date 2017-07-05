@@ -1,5 +1,7 @@
 package com.goodyang.toybrowser.html;
 
+import com.goodyang.toybrowser.util.Validate;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

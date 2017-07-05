@@ -7,7 +7,7 @@ public class Length extends Value {
 	private float length;
 	private Unit unit;
 	
-	public Length(int length, Unit unit) {
+	public Length(float length, Unit unit) {
 		this.length = length;
 		this.unit = unit;
 	}
