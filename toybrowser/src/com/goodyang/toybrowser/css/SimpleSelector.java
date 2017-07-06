@@ -32,15 +32,22 @@ public class SimpleSelector extends Selector {
 		return cls;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public String getTag_name() {
+		return tag_name;
+	}
+
 	@Override
-	Specificity specificity() {
+	public Specificity specificity() {
 		int a = tag_name!=null?tag_name.length():0;
 		int b = id!=null?id.length():0;
 		int c = cls!=null?cls.size():0;
 		return new Specificity(a, b, c);
 	}
 
-	@Override
 	public int compareTo(Selector o) {
 		Specificity s1 = specificity();
 		Specificity s2 = o.specificity();

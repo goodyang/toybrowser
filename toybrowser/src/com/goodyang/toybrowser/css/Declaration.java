@@ -11,4 +11,12 @@ public class Declaration {
 		this.name = name;
 		this.value = value;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Value getValue() {
+		return value;
+	}
 }

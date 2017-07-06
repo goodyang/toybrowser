@@ -17,8 +17,8 @@ public class CSSParser {
 		this.input = input;
 	}
 	
-	public StyleSheet parse() {
-		return new StyleSheet(parse_rules());
+	public Stylesheet parse() {
+		return new Stylesheet(parse_rules());
 	}
 	
 	private ArrayList<Rule> parse_rules() {
