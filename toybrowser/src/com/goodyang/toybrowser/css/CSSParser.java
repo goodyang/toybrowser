@@ -157,7 +157,7 @@ public class CSSParser {
 	private int parse_hex_pair() {
 		String val = input.substring(pos, pos+2);
 		pos += 2;
-		return Integer.valueOf(val);
+		return Integer.valueOf(val, 16);
 	}
 
 	private String parse_identifier() {
@@ -181,7 +181,7 @@ public class CSSParser {
 		consume_while(new Validate() {
 			@Override
 			public boolean valide(char ch) {
-				if(ch == ' ') {
+				if(Character.isWhitespace(ch)) {
 					return true;
 				}else{
 					return false;
@@ -192,18 +192,18 @@ public class CSSParser {
 
 	private String consume_while(Validate validate) {
 		StringBuffer buffer = new StringBuffer();
-		if(validate.valide(next_char())) {
+		while(!eof() && validate.valide(next_char())) {
 			buffer.append(consume_char());
 		}
 		return buffer.toString();
 	}
 
 	private char next_char() {
-		return input.charAt(pos+1);
+		return input.charAt(pos);
 	}
 
 	private char consume_char() {
-		char ch = input.charAt(pos+1);
+		char ch = input.charAt(pos);
 		pos += 1;
 		return ch;
 	}

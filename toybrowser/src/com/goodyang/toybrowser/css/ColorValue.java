@@ -11,7 +11,7 @@ public class ColorValue extends Value{
 	}
 	
 	@Override
-	float to_px() {
+	public float to_px() {
 		return 0;
 	}
 }

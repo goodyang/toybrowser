@@ -1,6 +1,7 @@
 package com.goodyang.toybrowser.style;
 
 import com.goodyang.toybrowser.css.*;
+import com.goodyang.toybrowser.html.Element;
 import com.goodyang.toybrowser.html.ElementData;
 import com.goodyang.toybrowser.html.Node;
 import com.goodyang.toybrowser.html.NodeType;
@@ -57,8 +58,8 @@ public class StyleNode {
     public StyleNode style_tree(Node root, Stylesheet stylesheet) {
 
         return new StyleNode(root,
-                root.node_type== NodeType.Element
-                        ? getSpecified_values(root.elementData, stylesheet)
+                root.node_type instanceof Element
+                        ? getSpecified_values(((Element) root.node_type).elementData, stylesheet)
                         : new HashMap<String, Value>(),
                 getChildrenStyleNode(root.children, stylesheet));
     }

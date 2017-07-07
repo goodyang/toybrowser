@@ -11,13 +11,28 @@ import java.util.HashMap;
 public class HtmlParser {
 	int pos;
 	String input;
-	
+
+	public HtmlParser(String input) {
+		this.input = input;
+		this.pos = 0;
+	}
+
+	public Node parse() {
+		ArrayList<Node> nodes = parse_nodes();
+
+		if(nodes.size() == 1) {
+			return nodes.get(0);
+		}else{
+			return elem("html", new HashMap<String, String>(), nodes);
+		}
+	}
+
 	public ArrayList<Node> parse_nodes() {
 		ArrayList<Node> nodes = new ArrayList<>();
 		
 		while(true){
 			consume_whitespace();
-			if(eof() || input.startsWith("</")) {
+			if(eof() || input.substring(pos).startsWith("</")) {
 				break;
 			}
 			nodes.add(parse_node());
@@ -98,7 +113,7 @@ public class HtmlParser {
 	
 	private String parse_attr_value() {
 		final char open_quote = consume_char();
-		if(open_quote != '\"' || open_quote !='\'') {
+		if(open_quote != '"' && open_quote !='\'') {
 			throw new RuntimeException("open quote not found");
 		}
 		String value = consume_while(new Validate() {
@@ -135,7 +150,7 @@ public class HtmlParser {
 		consume_while(new Validate() {
 			@Override
 			public boolean valide(char ch) {
-				if(ch == ' ') {
+				if(Character.isWhitespace(ch)) {
 					return true;
 				}else{
 					return false;
@@ -146,24 +161,28 @@ public class HtmlParser {
 	
 	private String consume_while(Validate validate) {
 		StringBuffer buffer = new StringBuffer();
-		if(validate.valide(next_char())) {
+		while(!eof() && validate.valide(next_char())) {
 			buffer.append(consume_char());
 		}
 		return buffer.toString();
 	}
 	
 	private char next_char() {
-		return input.charAt(pos+1);
+		return input.charAt(pos);
 	}
 	
 	private char consume_char() {
-		char ch = input.charAt(pos+1);
+		char ch = input.charAt(pos);
 		pos += 1;
 		return ch;
 	}
 	
 	private boolean eof() {
 		return pos >= input.length();
+	}
+
+	private Node elem(String name, HashMap<String, String> attrs, ArrayList<Node> children) {
+		return new Node(children, new Element(new ElementData(name, attrs)));
 	}
 	
 }

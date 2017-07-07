@@ -10,18 +10,19 @@ import java.util.List;
 public class Node {
 	public ArrayList<Node> children;
 	public NodeType node_type;
-	public String text;
-	public ElementData elementData;
 	
 	public Node(String data) {
 		children = new ArrayList<>();
-		node_type = NodeType.Text;
-		text = data;
+		node_type = new Text(data);
 	}
 	
 	public Node(String name, HashMap<String, String> attrs, ArrayList<Node> children) {
 		this.children = children;
-		node_type = NodeType.Element;
-		elementData = new ElementData(name, attrs);
+		node_type = new Element( new ElementData(name, attrs));
+	}
+
+	public Node(ArrayList<Node> children, NodeType node_type) {
+		this.children = children;
+		this.node_type = node_type;
 	}
 }

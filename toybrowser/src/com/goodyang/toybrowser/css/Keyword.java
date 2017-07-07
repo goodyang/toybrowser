@@ -19,7 +19,7 @@ public class Keyword extends Value {
 	}
 	
 	@Override
-	float to_px() {
+	public float to_px() {
 		return 0.0f;
 	}
 }
