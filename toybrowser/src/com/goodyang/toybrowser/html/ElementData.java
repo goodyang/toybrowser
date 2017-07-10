@@ -21,9 +21,8 @@ public class ElementData {
 	
 	public ArrayList<String> getCls() {
 		String str = this.attributes.get("class");
-		ArrayList<String> ret = null;
+		ArrayList<String> ret = new ArrayList<>();
 		if(str != null) {
-			ret = new ArrayList<>();
 			String[] arr = str.split(" ");
 			for(String cls: arr) {
 				ret.add(cls);

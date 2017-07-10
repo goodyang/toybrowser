@@ -1,19 +1,27 @@
 package com.goodyang.toybrowser.entry;
 
 import com.goodyang.toybrowser.css.CSSParser;
+import com.goodyang.toybrowser.css.Color;
 import com.goodyang.toybrowser.css.Stylesheet;
 import com.goodyang.toybrowser.html.HtmlParser;
 import com.goodyang.toybrowser.html.Node;
 import com.goodyang.toybrowser.layout.Dimensions;
 import com.goodyang.toybrowser.layout.LayoutBox;
+import com.goodyang.toybrowser.layout.LayoutBoxBuilder;
 import com.goodyang.toybrowser.layout.Rect;
+import com.goodyang.toybrowser.painting.*;
+import com.goodyang.toybrowser.style.StyleNode;
+import com.goodyang.toybrowser.style.StyleTreeBuilder;
 
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileReader;
+
 import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.nio.file.Paths;
-import java.util.ArrayList;
+
 
 /**
  * Created by Saga on 2017/7/7.
@@ -29,24 +37,53 @@ public class BrowserEntry {
         viewport.content.width = 800;
         viewport.content.height = 600;
 
+        Node root = null;
         if(html.exists()) {
             String htmlStr = new String(Files.readAllBytes(Paths.get("/examples/test.html")));
 
             HtmlParser htmlParser = new HtmlParser(htmlStr);
-            Node root = htmlParser.parse();
+            root = htmlParser.parse();
 
             System.out.println(root.toString());
 
         }
 
+        Stylesheet stylesheet = null;
         if(css.exists()) {
             String cssStr = new String(Files.readAllBytes(Paths.get("/examples/test.css")));
 
             CSSParser cssParser = new CSSParser(0, cssStr);
-            Stylesheet stylesheet = cssParser.parse();
+            stylesheet = cssParser.parse();
 
             System.out.println(stylesheet.toString());
         }
+
+        StyleNode styleNode = StyleTreeBuilder.style_tree(root, stylesheet);
+
+        System.out.println(styleNode);
+
+        LayoutBox layoutBox = null;
+        if(styleNode != null) {
+            layoutBox = LayoutBoxBuilder.getLayoutTree(styleNode, viewport);
+            System.out.println(layoutBox);
+        }
+
+        if(layoutBox != null) {
+
+            Canvas canvas = PaintProcess.paint(layoutBox, viewport.content);
+
+            BufferedImage bufferedImage = new BufferedImage(canvas.width, canvas.height, BufferedImage.TYPE_INT_ARGB);
+            for(int i=0; i<canvas.width; i++) {
+                for(int j=0; j<canvas.height; j++) {
+                    Color color = canvas.pixels.get(j*canvas.width+i);
+                    bufferedImage.setRGB(i, j, new java.awt.Color(color.r, color.g, color.b, color.a).getRGB());
+                }
+            }
+
+            File output = new File("/test.png");
+            ImageIO.write(bufferedImage, "png", output);
+        }
+
     }
 
 }
