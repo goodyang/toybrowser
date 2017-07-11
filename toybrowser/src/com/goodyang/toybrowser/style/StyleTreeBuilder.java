@@ -74,22 +74,25 @@ public class StyleTreeBuilder {
     }
 
     private static boolean matchesSimpleSelector(ElementData elem, SimpleSelector selector) {
-        if(!selector.getTag_name().equals(elem.tag_name)){
+        if(selector.getTag_name().length()!=0 && !selector.getTag_name().equals(elem.tag_name)){
             return false;
         }
-        if(!selector.getId().equals(elem.getId())) {
+        if(selector.getId().length()!=0 && !selector.getId().equals(elem.getId())) {
             return false;
         }
 
-        for(String cls: elem.getCls()) {
-            for(String cls_s : selector.getCls()) {
-                if(cls.equals(cls_s)) {
-                    return true;
+        if(selector.getCls()!=null && selector.getCls().size()>0) {
+            for (String cls : elem.getCls()) {
+                for (String cls_s : selector.getCls()) {
+                    if (cls.equals(cls_s)) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     static class MatchedRule implements Comparable<MatchedRule>{

@@ -39,7 +39,7 @@ public class BrowserEntry {
 
         Node root = null;
         if(html.exists()) {
-            String htmlStr = new String(Files.readAllBytes(Paths.get("/examples/test.html")));
+            String htmlStr = new String(Files.readAllBytes(Paths.get("/examples/perf-rainbow.html")));
 
             HtmlParser htmlParser = new HtmlParser(htmlStr);
             root = htmlParser.parse();
@@ -50,7 +50,7 @@ public class BrowserEntry {
 
         Stylesheet stylesheet = null;
         if(css.exists()) {
-            String cssStr = new String(Files.readAllBytes(Paths.get("/examples/test.css")));
+            String cssStr = new String(Files.readAllBytes(Paths.get("/examples/perf-rainbow.css")));
 
             CSSParser cssParser = new CSSParser(0, cssStr);
             stylesheet = cssParser.parse();
@@ -69,7 +69,7 @@ public class BrowserEntry {
         }
 
         if(layoutBox != null) {
-
+            viewport.content.height = 600;
             Canvas canvas = PaintProcess.paint(layoutBox, viewport.content);
 
             BufferedImage bufferedImage = new BufferedImage(canvas.width, canvas.height, BufferedImage.TYPE_INT_ARGB);
@@ -80,7 +80,7 @@ public class BrowserEntry {
                 }
             }
 
-            File output = new File("/test.png");
+            File output = new File("/test-rainbow.png");
             ImageIO.write(bufferedImage, "png", output);
         }
 

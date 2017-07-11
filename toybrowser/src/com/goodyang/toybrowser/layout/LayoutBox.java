@@ -170,8 +170,8 @@ public class LayoutBox {
         if(boxType instanceof InlineNode || boxType instanceof AnonymousBlock) {
             return this;
         }else if(boxType instanceof BlockNode) {
-            LayoutBox lastChild = children.get(children.size()-1);
-            if(lastChild.boxType instanceof  AnonymousBlock) {
+            LayoutBox lastChild = children.size()==0?null: children.get(children.size()-1);
+            if(lastChild!=null && lastChild.boxType instanceof  AnonymousBlock) {
                 return lastChild;
             }else{
                 children.add(new LayoutBox(new AnonymousBlock()));

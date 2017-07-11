@@ -4,10 +4,10 @@ package com.goodyang.toybrowser.layout;
  * Created by Administrator on 2017/7/6.
  */
 public class Dimensions {
-    public Rect content;
-    public EdgeSizes padding;
-    public EdgeSizes border;
-    public EdgeSizes margin;
+    public Rect content = new Rect();
+    public EdgeSizes padding = new EdgeSizes();
+    public EdgeSizes border = new EdgeSizes();
+    public EdgeSizes margin = new EdgeSizes();
 
 
     public  Rect getPaddingBox() {

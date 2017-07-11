@@ -14,7 +14,13 @@ public class LayoutBoxBuilder {
 
         root_box.layout(containingBlock);
 
+        setContainingHeight(root_box, containingBlock);
+
         return root_box;
+    }
+
+    private static void setContainingHeight(LayoutBox layoutBox, Dimensions containingBlock) {
+        containingBlock.content.height = layoutBox.dimensions.content.height;
     }
 
     private static LayoutBox buildLayoutTree(StyleNode styleNode) {
