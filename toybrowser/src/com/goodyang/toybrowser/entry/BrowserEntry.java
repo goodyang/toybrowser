@@ -10,11 +10,13 @@ import com.goodyang.toybrowser.layout.LayoutBox;
 import com.goodyang.toybrowser.layout.LayoutBoxBuilder;
 import com.goodyang.toybrowser.layout.Rect;
 import com.goodyang.toybrowser.painting.*;
+import com.goodyang.toybrowser.painting.Canvas;
 import com.goodyang.toybrowser.style.StyleNode;
 import com.goodyang.toybrowser.style.StyleTreeBuilder;
 
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -39,7 +41,7 @@ public class BrowserEntry {
 
         Node root = null;
         if(html.exists()) {
-            String htmlStr = new String(Files.readAllBytes(Paths.get("/examples/perf-rainbow.html")));
+            String htmlStr = new String(Files.readAllBytes(Paths.get("/examples/test.html")));
 
             HtmlParser htmlParser = new HtmlParser(htmlStr);
             root = htmlParser.parse();
@@ -50,7 +52,7 @@ public class BrowserEntry {
 
         Stylesheet stylesheet = null;
         if(css.exists()) {
-            String cssStr = new String(Files.readAllBytes(Paths.get("/examples/perf-rainbow.css")));
+            String cssStr = new String(Files.readAllBytes(Paths.get("/examples/test.css")));
 
             CSSParser cssParser = new CSSParser(0, cssStr);
             stylesheet = cssParser.parse();
@@ -69,16 +71,25 @@ public class BrowserEntry {
         }
 
         if(layoutBox != null) {
-            viewport.content.height = 600;
+//            viewport.content.height = 1600;
             Canvas canvas = PaintProcess.paint(layoutBox, viewport.content);
 
             BufferedImage bufferedImage = new BufferedImage(canvas.width, canvas.height, BufferedImage.TYPE_INT_ARGB);
+
+
             for(int i=0; i<canvas.width; i++) {
                 for(int j=0; j<canvas.height; j++) {
                     Color color = canvas.pixels.get(j*canvas.width+i);
                     bufferedImage.setRGB(i, j, new java.awt.Color(color.r, color.g, color.b, color.a).getRGB());
                 }
             }
+
+            Graphics graphics = bufferedImage.getGraphics();
+            graphics.setColor(java.awt.Color.BLUE);
+            graphics.fillRect(0,0, 200, 50);
+            graphics.setColor(java.awt.Color.BLACK);
+            graphics.setFont(new Font("Arial Black", Font.BOLD, 20));
+            graphics.drawString("Test", 10, 25);
 
             File output = new File("/test-rainbow.png");
             ImageIO.write(bufferedImage, "png", output);

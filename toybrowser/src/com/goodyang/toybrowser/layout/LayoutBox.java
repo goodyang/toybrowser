@@ -37,6 +37,10 @@ public class LayoutBox {
     public void layout(Dimensions containingBlock) {
         if(boxType instanceof BlockNode) {
             layout_block(containingBlock);
+        }else if(boxType instanceof InlineNode){
+            layout_inline(containingBlock);
+        }else{
+            layout_anonymousBlock(containingBlock);
         }
     }
 
@@ -48,6 +52,14 @@ public class LayoutBox {
         layout_block_children();
 
         calculate_block_height();
+    }
+
+    private void layout_inline(Dimensions containingBlock) {
+        System.out.println("layout inline");
+    }
+
+    private void layout_anonymousBlock(Dimensions containingBlock) {
+        System.out.println("layout anonymousBlock");
     }
 
     private void calculate_block_width(Dimensions containingBlock) {

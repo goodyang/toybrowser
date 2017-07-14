@@ -22,6 +22,12 @@ public class StyleTreeBuilder {
                 getChildrenStyleNode(root.children, stylesheet));
     }
 
+    /**
+     * call style_tree function recursively to build every sub style tree
+     * @param nodes children of one dom node
+     * @param stylesheet
+     * @return
+     */
     private static ArrayList<StyleNode> getChildrenStyleNode(ArrayList<Node> nodes, Stylesheet stylesheet) {
         ArrayList<StyleNode> styleNodes = new ArrayList<StyleNode>();
         for(Node node : nodes) {
@@ -31,7 +37,7 @@ public class StyleTreeBuilder {
     }
 
     private static HashMap<String, Value> getSpecified_values(ElementData elem, Stylesheet stylesheet) {
-        HashMap<String, Value> valueMap = new HashMap<String, Value>();
+        HashMap<String, Value> propertyMap = new HashMap<String, Value>();
 
         ArrayList<MatchedRule> rules = matchingRules(elem, stylesheet);
 
@@ -39,11 +45,11 @@ public class StyleTreeBuilder {
 
         for(MatchedRule matchedRule : rules) {
             for(Declaration declaration : matchedRule.rule.getDeclarations()) {
-                valueMap.put(declaration.getName(), declaration.getValue());
+                propertyMap.put(declaration.getName(), declaration.getValue());
             }
         }
 
-        return  valueMap;
+        return  propertyMap;
     }
 
     private static ArrayList<MatchedRule> matchingRules(ElementData elem, Stylesheet stylesheet) {

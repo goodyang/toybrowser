@@ -12,15 +12,24 @@ import java.util.HashMap;
 
 /**
  * Created by Administrator on 2017/7/5.
+ * building style tree
  */
 public class StyleNode {
+    /**
+     * dom node
+     */
     public Node node;
+
+    /**
+     * This hashmap used for saving property key and value of every style node
+     */
     public HashMap<String, Value> specified_values;
+
     public ArrayList<StyleNode> children;
 
     public StyleNode(Node node, HashMap<String, Value> specified_values, ArrayList<StyleNode> children) {
         this.node = node;
-        this.specified_values =specified_values;
+        this.specified_values = specified_values;
         this.children = children;
     }
 
